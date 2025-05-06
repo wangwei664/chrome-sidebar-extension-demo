@@ -1,0 +1,89 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Chrome扩展开发指南
+
+本规则介绍Chrome扩展开发的关键概念，帮助您更好地理解和开发Chrome侧边栏扩展。
+
+## 清单文件 Manifest
+
+[manifest.json](mdc:ai-sidebar-plugin-demo/public/manifest.json)是Chrome扩展的核心配置文件，定义了扩展的各种属性：
+
+```json
+{
+  "manifest_version": 3,       // 清单文件版本，当前应使用3
+  "name": "扩展名称",          // 扩展显示名称
+  "version": "1.0.0",          // 扩展版本号
+  "description": "扩展描述",   // 扩展描述
+  "permissions": [],           // 扩展需要的权限
+  "action": {},                // 定义工具栏图标行为
+  "side_panel": {}             // 侧边栏配置(用于侧边栏扩展)
+}
+```
+
+## 后台脚本
+
+[background.js](mdc:ai-sidebar-plugin-demo/public/background.js)是在扩展的生命周期中持续运行的脚本，用于监听事件和执行后台任务：
+
+```js
+// 监听安装事件
+chrome.runtime.onInstalled.addListener(() => {
+  // 扩展安装或更新时执行的代码
+});
+
+// 监听扩展图标点击事件
+chrome.action.onClicked.addListener((tab) => {
+  // 处理扩展图标点击
+});
+```
+
+## 侧边栏API
+
+Chrome提供了专门的API来管理侧边栏：
+
+```js
+// 打开侧边栏
+chrome.sidePanel.open({ tabId: tab.id });
+
+// 设置侧边栏状态
+chrome.sidePanel.setOptions({
+  tabId: tab.id,
+  path: 'sidebar.html',
+  enabled: true
+});
+```
+
+在[manifest.json](mdc:ai-sidebar-plugin-demo/public/manifest.json)中，侧边栏通过`side_panel`字段配置：
+
+```json
+"side_panel": {
+  "default_path": "index.html"  // 侧边栏HTML页面路径
+}
+```
+
+## 权限管理
+
+Chrome扩展需要明确声明其所需权限：
+
+```json
+"permissions": [
+  "sidePanel",    // 侧边栏权限
+  "storage",      // 存储权限
+  "tabs"          // 标签页权限
+]
+```
+
+## 构建和打包
+
+Chrome扩展的构建流程：
+
+1. 开发UI和功能代码
+2. 配置`manifest.json`
+3. 构建项目 - 使用[Vite](mdc:ai-sidebar-plugin-demo/vite.config.ts)等工具
+4. 将必要文件复制到构建目录：
+   ```
+   cp -r public/manifest.json public/background.js public/icon*.png dist/
+   ```
+5. 使用`dist`目录作为已解压的扩展加载到Chrome中

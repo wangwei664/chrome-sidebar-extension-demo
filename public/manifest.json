@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Chrome Sidebar Extension",
+  "version": "1.0.0",
+  "description": "A simple Chrome sidebar extension using React and TypeScript",
+  "side_panel": {
+    "default_path": "index.html"
+  },
+  "permissions": [
+    "sidePanel"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "action": {
+    "default_title": "打开 Hello Chrome 侧边栏"
+  }
+} 

@@ -1,0 +1,81 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# React开发规范
+
+本项目使用React 18、TypeScript和Vite构建Chrome侧边栏扩展。本规则提供React开发的最佳实践参考。
+
+## 组件结构
+
+- [App.tsx](mdc:ai-sidebar-plugin-demo/src/App.tsx) - 主组件，定义了整个应用的结构
+- 组件采用函数式组件 + Hooks的现代React开发模式
+
+```tsx
+function ComponentName() {
+  // 状态和hooks
+  const [state, setState] = useState(initialValue);
+  
+  // 处理函数
+  const handleEvent = () => {
+    // 处理逻辑
+  };
+  
+  // 渲染
+  return (
+    <div>
+      {/* JSX内容 */}
+    </div>
+  );
+}
+```
+
+## 状态管理
+
+项目使用React内置的useState Hook管理组件状态：
+
+```tsx
+const [count, setCount] = useState(0)
+
+// 更新状态的两种方式:
+setCount(count + 1)  // 直接设置新值
+setCount((prevCount) => prevCount + 1)  // 使用上一次的值计算新值(推荐)
+```
+
+## 样式管理
+
+项目使用CSS文件进行样式管理：
+
+- [App.css](mdc:ai-sidebar-plugin-demo/src/App.css) - 组件样式
+- [index.css](mdc:ai-sidebar-plugin-demo/src/index.css) - 全局样式
+
+## TypeScript集成
+
+- 使用TypeScript进行类型检查，提高代码质量
+- 为props和state定义接口或类型
+
+```tsx
+interface ButtonProps {
+  onClick: () => void;
+  label: string;
+  disabled?: boolean;
+}
+
+function Button({ onClick, label, disabled = false }: ButtonProps) {
+  return (
+    <button onClick={onClick} disabled={disabled}>
+      {label}
+    </button>
+  );
+}
+```
+
+## 构建和部署
+
+使用Vite进行构建：
+
+- 开发模式: `npm run dev`
+- 构建生产版本: `npm run build`
+
+[vite.config.ts](mdc:ai-sidebar-plugin-demo/vite.config.ts)文件定义了构建配置。
