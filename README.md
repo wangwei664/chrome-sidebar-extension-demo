@@ -2,6 +2,8 @@
 
 这是一个使用 React、TypeScript 和 Vite 构建的简单 Chrome 侧边栏扩展示例。
 
+![](./preview/v0.0.1.png)  
+
 ## 功能介绍
 
 - 简洁的侧边栏界面设计
